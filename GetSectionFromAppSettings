@@ -1,0 +1,21 @@
+
+//Version 1
+ var config_1 = new ConfigurationBuilder()
+         .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+         .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+         .Build();
+         
+NLog.LogManager.Configuration = new NLogLoggingConfiguration(config_1.GetSection("NLog"));
+var logger1 = NLogBuilder.ConfigureNLog(NLog.LogManager.Configuration).GetCurrentClassLogger();
+         
+//Version 2
+var config_2 = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+               .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
+               .AddEnvironmentVariables().Build();     
+                   
+var logger2 = NLog.LogManager.Setup()
+             .LoadConfigurationFromSection(config_2)
+             .GetCurrentClassLogger();
