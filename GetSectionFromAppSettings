@@ -19,3 +19,8 @@ var config_2 = new ConfigurationBuilder()
 var logger2 = NLog.LogManager.Setup()
              .LoadConfigurationFromSection(config_2)
              .GetCurrentClassLogger();
+                          
+//Version3
+var logger3 = NLog.LogManager.Setup()
+              .LoadConfigurationFromAppSettings()
+              .GetCurrentClassLogger();
